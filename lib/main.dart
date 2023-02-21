@@ -2,30 +2,298 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+enum Gender { MALE, FERMALE, NONE }
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+  Gender genderValue = Gender.NONE;
+  int weightValue = 75;
+  int ageValue = 25;
+
+  changeWeightValue(int newValue) {
+    if ((weightValue > 50 && newValue == -1) ||
+        (weightValue < 250 && newValue == 1)) {
+      weightValue = weightValue + newValue;
+    }
+  }
+
+  changeAgeValue(int newValue) {
+    if ((ageValue > 15 && newValue == -1) || (ageValue < 92 && newValue == 1)) {
+      ageValue = ageValue + newValue;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text("BMI Calculator"),
+          title: const Text("BMI Calculator"),
           centerTitle: true,
           backgroundColor: Colors.lightBlue,
         ),
         body: Column(
           children: [
+            SizedBox(
+              height: 15.0,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                GenderPage(genderTitle: "MALE", iconGender: Icons.male),
-                GenderPage(genderTitle: "FEMALE", iconGender: Icons.female),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      genderValue = Gender.MALE;
+                    });
+                  },
+                  child: GenderPage(
+                    genderTitle: "MALE",
+                    iconGender: Icons.male,
+                    genderColor: genderValue == Gender.MALE
+                        ? Colors.red
+                        : Colors.lightBlue,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      genderValue = Gender.FERMALE;
+                    });
+                    print(genderValue);
+                  },
+                  child: GenderPage(
+                    genderTitle: "FEMALE",
+                    iconGender: Icons.female,
+                    genderColor: genderValue == Gender.FERMALE
+                        ? Colors.red
+                        : Colors.lightBlue,
+                  ),
+                ),
               ],
             ),
+            SizedBox(
+              height: 15.0,
+            ),
             HeightPage(),
+            SizedBox(
+              height: 15.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  width: 160.0,
+                  height: 150.0,
+                  decoration: BoxDecoration(
+                      color: Colors.lightBlue,
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(12.0))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "WEIGHT",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        "$weightValue kg",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 40.0,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              this.setState(() {
+                                changeWeightValue(1);
+                              });
+                            },
+                            child: Container(
+                              width: 50.0,
+                              height: 50.0,
+                              decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(12.0))),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "+",
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              this.setState(() {
+                                changeWeightValue(-1);
+                              });
+                            },
+                            child: Container(
+                              width: 50.0,
+                              height: 50.0,
+                              decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(12.0))),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "-",
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 160.0,
+                  height: 150.0,
+                  decoration: BoxDecoration(
+                      color: Colors.lightBlue,
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(12.0))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "AGE",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        ageValue.toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 40.0,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              this.setState(() {
+                                changeAgeValue(1);
+                              });
+                            },
+                            child: Container(
+                              width: 50.0,
+                              height: 50.0,
+                              decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(12.0))),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "+",
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              this.setState(() {
+                                changeAgeValue(-1);
+                              });
+                            },
+                            child: Container(
+                              width: 50.0,
+                              height: 50.0,
+                              decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(12.0))),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "-",
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 15.0,
+            ),
+            Container(
+              width: 350.0,
+              height: 70.0,
+              decoration: BoxDecoration(
+                  color: Colors.lightBlue,
+                  borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+              child: Center(
+                child: Text(
+                  "Calculate",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 40.0,
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -36,16 +304,20 @@ class MyApp extends StatelessWidget {
 class GenderPage extends StatelessWidget {
   String genderTitle = "";
   late IconData iconGender;
-  GenderPage({required this.genderTitle, required this.iconGender});
+  Color genderColor;
+  GenderPage(
+      {required this.genderTitle,
+      required this.iconGender,
+      required this.genderColor});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 180.0,
       height: 120.0,
-      decoration: const BoxDecoration(
-          color: Colors.lightBlue,
-          borderRadius: BorderRadius.all(Radius.circular(12.0))),
+      decoration: BoxDecoration(
+          color: genderColor,
+          borderRadius: const BorderRadius.all(Radius.circular(12.0))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
